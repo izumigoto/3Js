@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Three.js Rotating Cube</title>
+  <title>Interactive Three.js Cube</title>
   <style>
     body { margin: 0; }
     canvas { display: block; }
@@ -11,8 +11,9 @@
 </head>
 <body>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/controls/OrbitControls.js"></script>
   <script>
-    let scene, camera, renderer, cube, light;
+    let scene, camera, renderer, cube, light, controls;
 
     // Set up the scene
     scene = new THREE.Scene();
@@ -41,6 +42,9 @@
     const ambientLight = new THREE.AmbientLight(0x404040, 0.5);
     scene.add(ambientLight);
 
+    // Add OrbitControls for interactivity
+    controls = new THREE.OrbitControls(camera, renderer.domElement);
+
     // Window resize handling
     window.addEventListener('resize', () => {
       renderer.setSize(window.innerWidth, window.innerHeight);
@@ -52,9 +56,12 @@
     function animate() {
       requestAnimationFrame(animate);
 
-      // Rotate the cube on the x and y axes
+      // Rotate the cube on the x and y axes (this can be controlled with OrbitControls)
       cube.rotation.x += 0.01;
       cube.rotation.y += 0.01;
+
+      // Update controls (to allow for interactive rotation)
+      controls.update();
 
       // Render the scene
       renderer.render(scene, camera);
